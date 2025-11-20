@@ -91,12 +91,12 @@ export default function AuthWrapper() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-sm text-base-content/60">
-          Welcome, <span className="font-semibold">{user?.firstName}</span> ({user?.username})
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4 mb-4">
+        <div className="text-xs sm:text-sm text-base-content/60">
+          Welcome, <span className="font-semibold">{user?.firstName}</span> <span className="hidden sm:inline">({user?.username})</span>
         </div>
         <button
-          className="btn btn-sm btn-ghost"
+          className="btn btn-xs sm:btn-sm btn-ghost w-full sm:w-auto"
           onClick={handleLogout}
         >
           Logout

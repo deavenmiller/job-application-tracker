@@ -99,8 +99,8 @@ export default function RowJob({ job, onUpdate, onDelete }) {
     return (
       <tr className="bg-base-200">
         <td colSpan="7">
-          <div className="p-4 space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-2 sm:p-4 space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text font-semibold">Company *</span>
@@ -229,16 +229,16 @@ export default function RowJob({ job, onUpdate, onDelete }) {
               />
             </div>
 
-            <div className="flex justify-end gap-2">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 pt-2">
               <button
-                className="btn btn-ghost"
+                className="btn btn-ghost w-full sm:w-auto"
                 onClick={handleCancel}
                 type="button"
               >
                 Cancel
               </button>
               <button
-                className="btn btn-primary"
+                className="btn btn-primary w-full sm:w-auto"
                 onClick={handleSave}
                 type="button"
               >
@@ -254,26 +254,27 @@ export default function RowJob({ job, onUpdate, onDelete }) {
   return (
     <>
       <tr>
-        <td className="font-semibold">{job.company}</td>
-        <td>{job.jobTitle}</td>
+        <td className="font-semibold text-xs sm:text-sm">{job.company}</td>
+        <td className="text-xs sm:text-sm">{job.jobTitle}</td>
         <td>
-          <span className={`badge ${getStatusBadgeClass(job.status)}`}>
-            {job.status}
+          <span className={`badge badge-sm sm:badge-md ${getStatusBadgeClass(job.status)}`}>
+            <span className="hidden sm:inline">{job.status}</span>
+            <span className="sm:hidden">{job.status.split(' ')[0]}</span>
           </span>
         </td>
-        <td>{job.employmentType}</td>
-        <td>{job.payRange || 'N/A'}</td>
-        <td>{dateApplied}</td>
+        <td className="hidden sm:table-cell text-xs sm:text-sm">{job.employmentType}</td>
+        <td className="hidden md:table-cell text-xs sm:text-sm">{job.payRange || 'N/A'}</td>
+        <td className="text-xs sm:text-sm">{dateApplied}</td>
         <td>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
             <button
-              className="btn btn-sm btn-ghost"
+              className="btn btn-xs sm:btn-sm btn-ghost"
               onClick={() => setIsEditing(true)}
             >
               Edit
             </button>
             <button
-              className="btn btn-sm btn-error"
+              className="btn btn-xs sm:btn-sm btn-error"
               onClick={() => onDelete(job._id)}
             >
               Delete
@@ -283,22 +284,24 @@ export default function RowJob({ job, onUpdate, onDelete }) {
       </tr>
       {job.jobLink && (
         <tr>
-          <td colSpan="7" className="text-sm text-base-content/60">
-            <a
-              href={getFullUrl(job.jobLink)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link link-primary"
-              onClick={(e) => handleLinkClick(e, job.jobLink)}
-            >
-              View Job Listing →
-            </a>
-            {job.benefits && (
-              <span className="ml-4">
-                Benefits: {job.benefits.substring(0, 100)}
-                {job.benefits.length > 100 ? '...' : ''}
-              </span>
-            )}
+          <td colSpan="7" className="text-xs sm:text-sm text-base-content/60 p-2 sm:p-4">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <a
+                href={getFullUrl(job.jobLink)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link link-primary break-all"
+                onClick={(e) => handleLinkClick(e, job.jobLink)}
+              >
+                View Job Listing →
+              </a>
+              {job.benefits && (
+                <span className="break-words">
+                  Benefits: {job.benefits.substring(0, 100)}
+                  {job.benefits.length > 100 ? '...' : ''}
+                </span>
+              )}
+            </div>
           </td>
         </tr>
       )}

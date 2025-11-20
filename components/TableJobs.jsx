@@ -18,30 +18,32 @@ export default function TableJobs({ jobs, onUpdate, onDelete }) {
 
   return (
     <div className="card bg-base-100 shadow-xl overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          <thead>
-            <tr>
-              <th>Company</th>
-              <th>Job Title</th>
-              <th>Status</th>
-              <th>Employment Type</th>
-              <th>Pay Range</th>
-              <th>Date Applied</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jobs.map((job) => (
-              <RowJob
-                key={job._id}
-                job={job}
-                onUpdate={onUpdate}
-                onDelete={onDelete}
-              />
-            ))}
-          </tbody>
-        </table>
+      <div className="overflow-x-auto -mx-4 sm:mx-0">
+        <div className="inline-block min-w-full align-middle">
+          <table className="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th className="text-xs sm:text-sm">Company</th>
+                <th className="text-xs sm:text-sm">Job Title</th>
+                <th className="text-xs sm:text-sm">Status</th>
+                <th className="hidden sm:table-cell text-xs sm:text-sm">Employment Type</th>
+                <th className="hidden md:table-cell text-xs sm:text-sm">Pay Range</th>
+                <th className="text-xs sm:text-sm">Date Applied</th>
+                <th className="text-xs sm:text-sm">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {jobs.map((job) => (
+                <RowJob
+                  key={job._id}
+                  job={job}
+                  onUpdate={onUpdate}
+                  onDelete={onDelete}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

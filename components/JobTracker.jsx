@@ -105,11 +105,11 @@ export default function JobTracker() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Your Applications</h2>
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+        <h2 className="text-xl sm:text-2xl font-semibold">Your Applications</h2>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary w-full sm:w-auto btn-sm sm:btn-md"
           onClick={() => setShowAddForm(!showAddForm)}
         >
           {showAddForm ? 'Cancel' : '+ Add New Application'}
@@ -118,7 +118,7 @@ export default function JobTracker() {
 
       {showAddForm && (
         <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
+          <div className="card-body p-4 sm:p-6">
             <FormAddJob onSubmit={handleAddJob} />
           </div>
         </div>
