@@ -1,11 +1,24 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import JobApplication from '@/models/JobApplication';
+import { getCurrentUserFromRequest } from '@/lib/auth';
 
 export async function GET(request, { params }) {
   try {
     await connectDB();
-    const job = await JobApplication.findById(params.id);
+    const user = await getCurrentUserFromRequest(request);
+    
+    if (!user || !user._id) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const job = await JobApplication.findOne({ 
+      _id: params.id,
+      userId: user._id 
+    });
     
     if (!job) {
       return NextResponse.json(
@@ -16,6 +29,7 @@ export async function GET(request, { params }) {
     
     return NextResponse.json({ success: true, data: job });
   } catch (error) {
+    console.error('Error fetching job:', error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }
@@ -26,6 +40,14 @@ export async function GET(request, { params }) {
 export async function PUT(request, { params }) {
   try {
     await connectDB();
+    const user = await getCurrentUserFromRequest(request);
+    
+    if (!user || !user._id) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
     const body = await request.json();
     
     // Validate required fields
@@ -56,8 +78,8 @@ export async function PUT(request, { params }) {
     if (updateData.benefits) updateData.benefits = updateData.benefits.trim();
     if (updateData.jobDescription) updateData.jobDescription = updateData.jobDescription.trim();
     
-    const job = await JobApplication.findByIdAndUpdate(
-      params.id,
+    const job = await JobApplication.findOneAndUpdate(
+      { _id: params.id, userId: user._id },
       updateData,
       { new: true, runValidators: true }
     );
@@ -81,7 +103,18 @@ export async function PUT(request, { params }) {
 export async function DELETE(request, { params }) {
   try {
     await connectDB();
-    const job = await JobApplication.findByIdAndDelete(params.id);
+    const user = await getCurrentUserFromRequest(request);
+    
+    if (!user || !user._id) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+    const job = await JobApplication.findOneAndDelete({ 
+      _id: params.id,
+      userId: user._id 
+    });
     
     if (!job) {
       return NextResponse.json(

@@ -12,10 +12,15 @@ export default function JobTracker() {
   async function fetchJobs() {
     try {
       setLoading(true);
-      const response = await fetch('/api/jobs');
+      const response = await fetch('/api/jobs', {
+        credentials: 'include',
+      });
       const result = await response.json();
       if (result.success) {
         setJobs(result.data);
+      } else if (result.error === 'Authentication required') {
+        // User not authenticated, redirect to login
+        window.location.reload();
       }
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -35,6 +40,7 @@ export default function JobTracker() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(jobData),
       });
       const result = await response.json();
@@ -42,7 +48,12 @@ export default function JobTracker() {
         await fetchJobs();
         setShowAddForm(false);
       } else {
-        alert('Error adding job: ' + result.error);
+        if (result.error === 'Authentication required') {
+          alert('You must be logged in to add jobs. Please refresh the page.');
+          window.location.reload();
+        } else {
+          alert('Error adding job: ' + result.error);
+        }
       }
     } catch (error) {
       console.error('Error adding job:', error);
@@ -57,6 +68,7 @@ export default function JobTracker() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(updates),
       });
       const result = await response.json();
@@ -78,6 +90,7 @@ export default function JobTracker() {
     try {
       const response = await fetch(`/api/jobs/${id}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
       const result = await response.json();
       if (result.success) {

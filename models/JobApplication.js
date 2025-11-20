@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const JobApplicationSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   company: {
     type: String,
     required: true,
@@ -54,5 +59,10 @@ const JobApplicationSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-export default mongoose.models.JobApplication || mongoose.model('JobApplication', JobApplicationSchema);
+// Force recompilation to ensure schema changes are applied
+if (mongoose.models.JobApplication) {
+  delete mongoose.models.JobApplication;
+}
+
+export default mongoose.model('JobApplication', JobApplicationSchema);
 
