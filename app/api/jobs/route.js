@@ -102,7 +102,19 @@ export async function POST(request) {
       payRange: (manualFields.payRange || parsedData.payRange || '').trim(),
       benefits: (manualFields.benefits || parsedData.benefits || '').trim(),
       employmentType: manualFields.employmentType || parsedData.employmentType || 'Full-time',
-      dateApplied: manualFields.dateApplied ? new Date(manualFields.dateApplied) : new Date(),
+      dateApplied: manualFields.dateApplied 
+        ? (() => {
+            // Parse date string as local date to avoid timezone conversion
+            const dateStr = manualFields.dateApplied;
+            if (dateStr.includes('T')) {
+              // Already has time component
+              return new Date(dateStr);
+            }
+            // Date input gives YYYY-MM-DD, parse as local date
+            const [year, month, day] = dateStr.split('-').map(Number);
+            return new Date(year, month - 1, day); // month is 0-indexed
+          })()
+        : new Date(),
       jobDescription: (jobDescription || '').trim(),
     };
 

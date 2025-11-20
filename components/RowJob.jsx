@@ -82,9 +82,18 @@ export default function RowJob({ job, onUpdate, onDelete }) {
     }
   }
 
-  const dateApplied = job.dateApplied
-    ? new Date(job.dateApplied).toLocaleDateString()
-    : 'N/A';
+  // Format date without timezone conversion - extract date parts directly
+  function formatDateWithoutTimezone(dateString) {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    // Use UTC methods to avoid timezone conversion issues
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1;
+    const day = date.getUTCDate();
+    return `${month}/${day}/${year}`;
+  }
+
+  const dateApplied = formatDateWithoutTimezone(job.dateApplied);
 
   if (isEditing) {
     return (

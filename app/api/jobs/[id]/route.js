@@ -67,7 +67,16 @@ export async function PUT(request, { params }) {
     // Convert dateApplied string to Date if provided
     const updateData = { ...body };
     if (updateData.dateApplied && typeof updateData.dateApplied === 'string') {
-      updateData.dateApplied = new Date(updateData.dateApplied);
+      // Parse date string as local date to avoid timezone conversion
+      const dateStr = updateData.dateApplied;
+      if (dateStr.includes('T')) {
+        // Already has time component
+        updateData.dateApplied = new Date(dateStr);
+      } else {
+        // Date input gives YYYY-MM-DD, parse as local date
+        const [year, month, day] = dateStr.split('-').map(Number);
+        updateData.dateApplied = new Date(year, month - 1, day); // month is 0-indexed
+      }
     }
     
     // Trim string fields
