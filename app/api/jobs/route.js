@@ -102,6 +102,7 @@ export async function POST(request) {
       payRange: (manualFields.payRange || parsedData.payRange || '').trim(),
       benefits: (manualFields.benefits || parsedData.benefits || '').trim(),
       employmentType: manualFields.employmentType || parsedData.employmentType || 'Full-time',
+      remote: manualFields.remote || parsedData.remote || 'No',
       dateApplied: manualFields.dateApplied 
         ? (() => {
             // Parse date string as local date to avoid timezone conversion

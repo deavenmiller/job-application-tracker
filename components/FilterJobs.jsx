@@ -27,6 +27,10 @@ export default function FilterJobs({ filters, onFilterChange, onClearFilters }) 
     onFilterChange({ ...filters, statuses: newStatuses });
   }
 
+  function handleRemoteChange(checked) {
+    onFilterChange({ ...filters, remote: checked });
+  }
+
   function handleEmploymentTypeChange(type, checked) {
     const newTypes = checked
       ? [...filters.employmentTypes, type]
@@ -56,7 +60,8 @@ export default function FilterJobs({ filters, onFilterChange, onClearFilters }) 
     filters.minSalary ||
     filters.dateFrom ||
     filters.dateTo ||
-    filters.companySearch;
+    filters.companySearch ||
+    filters.remote;
 
   return (
     <div className="card bg-base-100 shadow-xl mb-4 sm:mb-6">
@@ -93,6 +98,19 @@ export default function FilterJobs({ filters, onFilterChange, onClearFilters }) 
             value={filters.companySearch}
             onChange={(e) => handleCompanySearchChange(e.target.value)}
           />
+        </div>
+
+        {/* Remote Filter - Always visible */}
+        <div className="form-control mb-4">
+          <label className="label cursor-pointer justify-start gap-2 py-1 sm:py-2">
+            <input
+              type="checkbox"
+              className="checkbox checkbox-sm sm:checkbox-md"
+              checked={filters.remote || false}
+              onChange={(e) => handleRemoteChange(e.target.checked)}
+            />
+            <span className="label-text text-sm sm:text-base font-semibold">Remote?</span>
+          </label>
         </div>
 
         {isExpanded && (
@@ -214,6 +232,11 @@ export default function FilterJobs({ filters, onFilterChange, onClearFilters }) 
               {filters.companySearch && (
                 <span className="badge badge-info">
                   Company: {filters.companySearch}
+                </span>
+              )}
+              {filters.remote && (
+                <span className="badge badge-info">
+                  Remote Only
                 </span>
               )}
             </div>

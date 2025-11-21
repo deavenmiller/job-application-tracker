@@ -28,6 +28,7 @@ export default function TableJobs({ jobs, onUpdate, onDelete }) {
                 <th className="text-xs sm:text-sm">Status</th>
                 <th className="hidden sm:table-cell text-xs sm:text-sm">Employment Type</th>
                 <th className="hidden md:table-cell text-xs sm:text-sm">Pay Range</th>
+                <th className="hidden sm:table-cell text-xs sm:text-sm">Remote?</th>
                 <th className="text-xs sm:text-sm">Date Applied</th>
                 <th className="text-xs sm:text-sm">Actions</th>
               </tr>

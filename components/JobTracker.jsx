@@ -16,6 +16,7 @@ export default function JobTracker() {
     dateFrom: '',
     dateTo: '',
     companySearch: '',
+    remote: false,
   });
 
   async function fetchJobs() {
@@ -125,6 +126,7 @@ export default function JobTracker() {
       dateFrom: '',
       dateTo: '',
       companySearch: '',
+      remote: false,
     });
   }
 
@@ -191,6 +193,11 @@ export default function JobTracker() {
             return false;
           }
         }
+      }
+
+      // Remote filter
+      if (filters.remote && job.remote !== 'Yes') {
+        return false;
       }
 
       return true;

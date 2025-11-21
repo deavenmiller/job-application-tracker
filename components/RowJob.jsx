@@ -27,6 +27,7 @@ export default function RowJob({ job, onUpdate, onDelete }) {
     payRange: job.payRange || '',
     benefits: job.benefits || '',
     employmentType: job.employmentType || 'Full-time',
+    remote: job.remote || 'No',
     dateApplied: job.dateApplied ? new Date(job.dateApplied).toISOString().split('T')[0] : '',
   });
 
@@ -44,6 +45,7 @@ export default function RowJob({ job, onUpdate, onDelete }) {
       payRange: job.payRange || '',
       benefits: job.benefits || '',
       employmentType: job.employmentType || 'Full-time',
+      remote: job.remote || 'No',
       dateApplied: job.dateApplied ? new Date(job.dateApplied).toISOString().split('T')[0] : '',
     });
     setIsEditing(false);
@@ -171,6 +173,22 @@ export default function RowJob({ job, onUpdate, onDelete }) {
 
               <div className="form-control">
                 <label className="label">
+                  <span className="label-text font-semibold">Remote?</span>
+                </label>
+                <select
+                  className="select select-bordered"
+                  value={editedJob.remote}
+                  onChange={(e) =>
+                    setEditedJob({ ...editedJob, remote: e.target.value })
+                  }
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+
+              <div className="form-control">
+                <label className="label">
                   <span className="label-text font-semibold">Job Link</span>
                 </label>
                 <input
@@ -264,6 +282,11 @@ export default function RowJob({ job, onUpdate, onDelete }) {
         </td>
         <td className="hidden sm:table-cell text-xs sm:text-sm">{job.employmentType}</td>
         <td className="hidden md:table-cell text-xs sm:text-sm">{job.payRange || 'N/A'}</td>
+        <td className="hidden sm:table-cell text-xs sm:text-sm">
+          <span className={`badge badge-sm ${job.remote === 'Yes' ? 'badge-success' : 'badge-ghost'}`}>
+            {job.remote || 'No'}
+          </span>
+        </td>
         <td className="text-xs sm:text-sm">{dateApplied}</td>
         <td>
           <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">

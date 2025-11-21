@@ -47,6 +47,11 @@ const JobApplicationSchema = new mongoose.Schema({
     enum: ['Full-time', 'Part-time', 'Contract', 'Internship'],
     default: 'Full-time',
   },
+  remote: {
+    type: String,
+    enum: ['Yes', 'No'],
+    default: 'No',
+  },
   dateApplied: {
     type: Date,
     default: Date.now,
