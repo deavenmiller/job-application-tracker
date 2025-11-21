@@ -201,6 +201,11 @@ export default function JobTracker() {
       }
 
       return true;
+    }).sort((a, b) => {
+      // Sort by dateApplied descending (newest first)
+      const dateA = new Date(a.dateApplied);
+      const dateB = new Date(b.dateApplied);
+      return dateB - dateA;
     });
   }, [jobs, filters]);
 
